@@ -1,0 +1,104 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home Page</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+            * {
+                font-family: 'Montserrat';
+                transition: all 0.2s ease;
+            }
+            .alert {
+                color: rgb(64, 255, 64);
+            }
+            .pfp {
+                border-radius: 50%;
+                height: 40px;
+                width: 40px;
+                vertical-align: middle;
+                text-align: center;
+                position: relative;
+                user-select: none;
+            }
+            .username a {
+                vertical-align: middle;
+            }
+            .letter {
+                font-size: 25px;
+                line-height: 40px;
+                padding: 0;
+                margin: 0;
+            }
+            a {
+                color: black;
+            }
+            #loggedin {
+                background-color: {{ colors[1] }};
+                color: {{ colors[2] }};
+                border: 2px solid {{ colors[0] }};
+            }
+            .display {
+                padding: 20px;
+                border: 2px solid black;
+                border-radius: 3px;
+                position: relative;
+                display: table;
+                align-items: center;
+            }
+            .ouser {
+                display: table-cell;
+                padding: 20px;
+                align-items: center;
+                text-align: center;
+            }
+            .ouser .pfp {
+                margin: auto;
+                margin-bottom:5px;
+            }
+        </style>
+    </head>
+    <body>
+        {% if username == 'Guest' %}
+            <p class="username"><strong><div class="pfp" style="background-color: #d6d6d6; color: black; border: 2px solid rgb(135, 135, 135);"><p class="letter">G</p></div></strong>Guest<br><br><a href="login">Log In</a>
+            <p><a href="signup">Sign Up</a></p>
+        {% else %}
+            <p class="username"><strong><div class="pfp" id="loggedin"><p class="letter">{{ username[0].upper() }}</p></div></strong>{{ username }}
+            <br>
+            <a href="profile">profile</a>
+            <p><a href="signout">Sign Out</a></p>
+            {% if t=="Student" %}
+                <h1>All Tutors</h1>
+                <br>
+            {% else %}
+                <h1>All Students</h1>
+                <br>
+            {% endif %}
+            <div class="display">
+                {% if t=="Student" %}
+                    {% for user in users %}
+                        {% if users[user]['t'] == "Tutor" %}
+                            <div class="ouser">
+                                <p class="username"><strong><div class="pfp" style="background-color: {{ users[user]['c'][1] }};color: {{ users[user]['c'][2] }};border: 2px solid {{ users[user]['c'][0] }};"><p class="letter">{{ user[0].upper() }}</p></div></strong>{{ user }}
+                                <br>
+                                <a href="profile/{{user}}">View Profile</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for user in users %}
+                        {% if users[user]['t'] == "Student" %}
+                            <div class="ouser">
+                                <p class="username"><strong><div class="pfp" style="background-color: {{ users[user]['c'][1] }};color: {{ users[user]['c'][2] }};border: 2px solid {{ users[user]['c'][0] }};"><p class="letter">{{ user[0].upper() }}</p></div></strong>{{ user }}
+                                <br>
+                                <a href="profile/{{user}}">View Profile</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </body>
+    </html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+        * {
+            font-family: 'Montserrat';
+            transition: all 0.2s ease;
+        }
+        .pfp {
+            border-radius: 50%;
+            height: 35px;
+            width: 35px;
+            vertical-align: middle;
+            text-align: center;
+            position: relative;
+            user-select: none;
+            display: inline-block;
+            margin: 5px 10px;
+        }
+        .un {
+            font-size: 15px;
+            line-height: 40px;
+            padding: 0;
+            margin: 0!important;
+            vertical-align: middle;
+        }
+        .letter {
+            font-size: 25px;
+            line-height:35px;
+            padding: 0;
+            margin: 0;
+        }
+        .userrow {
+            display: inline-block;
+        }
+        .action-btn {
+            padding: 5px 15px;
+            color: white;
+            margin: 10px;
+        }
+        #delete:hover {
+            background-color: white;
+            color: rgb(255, 58, 58);
+        }
+        #delete {
+            margin-left: 5px;
+            border: 2px solid rgb(215, 38, 38);
+            background-color: rgb(255, 58, 58);;
+        }
+        #edit {
+            margin-right: 5px;
+            border: 2px solid rgb(38, 76, 215);
+            background-color: rgb(91, 58, 255);;
+        }
+        #edit:hover {
+            background-color: white;
+            color: rgb(91, 58, 255);;
+        }
+        table, th, td {
+            text-align: center;
+            border: 2px solid black;
+        }
+        
+        th {
+            padding: 5px 20px;
+        }
+        table {
+            border: none;
+        }
+        .noborder {
+            border: none;
+        }
+        input {
+            outline: none;
+            border: none;
+            text-align: center;
+            
+        }
+        select {
+            border: none;
+            outline: none;
+            text-align: center;
+            border-radius: 0;
+            background-color: white;
+        }
+        option {
+            border: none;
+            outline: none;
+            border-radius: 0;
+            background-color: white;
+        }
+        select:active {
+            border-radius: 0;
+            border: none;
+            color: #2effbd, #00e69d, #12946b;
+        }
+    </style>
+</head>
+<body>
+    <a href="reset">Reset users to default for testing purposes</a>
+    <br>
+    <a href="add">Add test account</a>
+    <br>
+    <a href="delete-all">Delete all</a>
+    <br>
+    <p><a href="signout">Sign Out</a></p>
+    {% if n != 0 %}
+        <p class="count">{{ n }} Users</p>
+        <table>
+            <tr>
+                <th class=""></th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Account Type</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td class=""><div class='pfp' style='background-color: {{ users[user]["c"][1] }}; color: {{ users[user]["c"][2] }}; border: 2px solid {{ users[user]["c"][0] }};' id='loggedin'><p class='letter'>{{ user[0].upper() }}</p></div></td>
+                    <td><input class="username" id="{{user}}username" name="username" type="text" value="{{user}}"></td>
+                    <td><input type="text" class="name" id="{{user}}name" name="name" value="{{users[user]['name']}}"></td>
+                    <td><select name="type" id="{{user}}type">
+                        {% if users[user]['t'] == 'Student' %}
+                            <option selected value="Student">Student</option>
+                            <option value="Tutor">Tutor</option>
+                        {% else %}
+                            <option value="Student">Student</option>
+                            <option selected value="Tutor">Tutor</option>
+                        {% endif %}
+                    </select></td>
+                    <td><a id='edit' class="action-btn" onclick="edit('{{ user }}')" style='cursor:pointer;'>Edit</a><a id='delete' class="action-btn" onclick="rem('{{ user }}')" style='cursor:pointer;'>Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+    {% else %}
+        <h1>No users</h1>
+    {% endif %}
+    <script>
+        function rem(user) {
+            window.location = `/delete?user=${user}`
+        }
+        function edit(user) {
+            username = document.getElementById(user+"username").value;
+            name = document.getElementById(user+"name").value;
+            type = document.getElementById(user+"type").value;
+            window.location = `/edit?user=${user}&newusername=${username}&newname=${name}&newtype=${type}`
+        }
+    </script>
+</body>
+</html>
