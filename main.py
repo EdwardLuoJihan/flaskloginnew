@@ -142,7 +142,7 @@ def reset():
         users = json.load(f)
         f = open('default.json')
         default = json.load(f)
-        if session['username'] != None and session['username']['u'] == 'admin' and session['username']['p'] == 'admin123':
+        if session['username']['u'] == 'admin' and session['username']['p'] == 'admin123':
             users = default
             with open('users.json', 'w') as f:
                 json.dump(users, f)
@@ -208,4 +208,7 @@ def signout():
     session.pop('username', default=None)
     return redirect(url_for('index'))
 
-app.run(host='0.0.0.0', port=80)
+app.jinja_env.cache = {}
+app.jinja_env.auto_reload = True
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.run(debug=True, host='0.0.0.0')

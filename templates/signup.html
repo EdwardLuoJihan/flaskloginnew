@@ -47,7 +47,7 @@
         text-align: center;
         justify-content: center;
         margin: auto;
-        margin-top: 11%;
+        margin-top: 2%;
     }
 
     a {
@@ -69,9 +69,27 @@
       font-size: 15px;
     }
     select {
-      outline: none;
 
     }
+    #output {
+  padding: 20px;
+  background: #dadada;
+}
+.tagselect{
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  text-align: center;
+}
+.tagselect div {
+  margin: auto;
+  outline: 1px solid black;
+  border: 2px solid lightgrey;
+  border-radius:  2px;
+  padding: 5px 10px;
+  margin-top: 3px;
+  width: max-content!important;
+}
   </style>
 </head>
 <body>
@@ -104,6 +122,18 @@
   <option value="Tutor">Tutor</option>  
 </select>
 <br><br>
+<div class="tagselect">
+<div id="output"></div>
+<select data-placeholder="Choose tags ..." name="tags[]" multiple class="chosen-select">
+  <option value="Engineering">Engineering</option>
+  <option value="Carpentry">Carpentry</option>
+  <option value="Plumbing">Plumbing</option>
+  <option value="Electical">Electrical</option>
+  <option value="Mechanical">Mechanical</option>
+  <option value="HVAC">HVAC</option>
+</select>
+</div>
+<br><br><br><br>
     <input class="btn btn-default" type="submit" value="Sign Up">
     {% if error %}
     <p class="error"><strong>Error:</strong> {{ error }}
@@ -112,6 +142,8 @@
   <br>
   <a href="login">Log In</a>
   </form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
   <script>
     function myFunction() {
   var x = document.getElementById("psw");
@@ -121,6 +153,8 @@
     x.type = "password";
   }
 }
+document.getElementById('output').innerHTML = location.search;
+$(".chosen-select").chosen();
   </script>
 
 </body>
