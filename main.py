@@ -6,6 +6,14 @@ import random
 app = Flask(__name__)
 app.secret_key = 'thisisakey'
 
+subject_colors = {
+    "Math": "#99caff",
+    "Social": "#ffc099",
+    "Science": "#bbff99",
+    "Language Arts": "#ff9999",
+    "Other": "#e699ff",
+}
+
 COLORS = [
     ['#DF7FD7', '#f2a9ec', '#591854'],
     ['#E3CAC8', '#DF8A82', '#5E3A37'],
@@ -105,7 +113,7 @@ def edit():
             oldtype = users[user]['t']
             oldp = users[user]['p']
             users = {newusername if k == user else k:v for k,v in users.items()}
-            users[newusername] = {'name': newname, 'p': oldp, 'c':  [f"#{c0}", f"#{c1}", f"#{c2}"], 't': oldtype}
+            users[newusername] = {'name': newname, 'p': oldp, 'c':  [f"#{c0}", f"#{c1}", f"#{c2}"], 't': oldtype, "tags": users[newusername]['tags'], "grade": users[newusername]['grade']}
             session['username'] = newusername
             with open('users.json', 'w') as f:
                 json.dump(users, f)
@@ -115,7 +123,7 @@ def edit():
             oldc = users[user]['c']
             oldp = users[user]['p']
             users = {newusername if k == user else k:v for k,v in users.items()}
-            users[newusername] = {'name': newname, 'p': oldp, 'c': oldc, 't': newtype}
+            users[newusername] = {'name': newname, 'p': oldp, 'c': oldc, 't': newtype, "tags": users[newusername]['tags'], "grade": users[newusername]['grade']}
             with open('users.json', 'w') as f:
                 json.dump(users, f)
             return redirect(url_for('admin'))
@@ -190,13 +198,15 @@ def signup():
         password = request.form['password']
         name = request.form['name']
         type = request.form.get('type')
+        tags = request.form.getlist('tags[]')
+        grade = request.form['grade']
         if username in users or username.lower() == 'admin':
             error = "This username is taken, please try another."
         elif password == '' or username == '' or name == '':
             error = "Empty field(s)."
         else:
             color = random.choice(COLORS)
-            users[username] = {'name': name, 'p': password, 'c': color, 't': type}
+            users[username] = {'name': name, 'p': password, 'c': color, 't': type, 'tags': [[i, subject_colors[i]] for i in tags], "grade": grade}
             with open('users.json', 'w') as f:
                 json.dump(users, f)
             session['username'] = username

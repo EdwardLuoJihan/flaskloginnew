@@ -47,7 +47,7 @@
         text-align: center;
         justify-content: center;
         margin: auto;
-        margin-top: 2%;
+        margin-top: 11%;
     }
 
     a {
@@ -74,6 +74,26 @@
     #output {
   padding: 20px;
   background: #dadada;
+  display: none;
+}
+ul, li {
+  list-style-type: none;
+}
+.search-field {
+  margin:auto;
+}
+.chosen-search-input {
+  width: 120px!important;
+  padding: 5px!important;
+}
+.chosen-container {
+  width: 120px!important;
+}
+.chosen-choices {
+  padding: 0!important;
+}
+.chosen-results {
+  padding: 0!important;
 }
 .tagselect{
   align-items: center;
@@ -91,6 +111,7 @@
   width: max-content!important;
 }
   </style>
+  <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
 </head>
 <body>
   <a href="/" class="h">⇦ Home</a>
@@ -125,15 +146,17 @@
 <div class="tagselect">
 <div id="output"></div>
 <select data-placeholder="Choose tags ..." name="tags[]" multiple class="chosen-select">
-  <option value="Engineering">Engineering</option>
-  <option value="Carpentry">Carpentry</option>
-  <option value="Plumbing">Plumbing</option>
-  <option value="Electical">Electrical</option>
-  <option value="Mechanical">Mechanical</option>
-  <option value="HVAC">HVAC</option>
+  <option value="Math">Math</option>
+  <option value="Social">Social</option>
+  <option value="Science">Science</option>
+  <option value="Language Arts">Language Arts</option>
+  <option value="Other">Other</option>
 </select>
 </div>
-<br><br><br><br>
+<br><br>
+<label for="grade">What grade are you?</label><br>
+<input type="number" name="grade" id="grade" min="1" max="12">
+<br><br>
     <input class="btn btn-default" type="submit" value="Sign Up">
     {% if error %}
     <p class="error"><strong>Error:</strong> {{ error }}
