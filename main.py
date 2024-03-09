@@ -59,7 +59,7 @@ def profile(user):
             f = open('users.json')
             users = json.load(f)
             if session['username'] != None:
-                return render_template('profile.html', username=session['username'], colors=users[session['username']]['c'], users=users, urs=True, tags=users[session['username']]['tags'])
+                return render_template('profile.html', username=session['username'], colors=users[session['username']]['c'], users=users, urs=True, tags=users[session['username']]['tags'], age = getage(users[session['username']]['grade']))
         except:
             return redirect(url_for('login'))
     else:
@@ -70,7 +70,7 @@ def profile(user):
             tags=users[user]['tags']
         except:
             tags = []
-        return render_template('profile.html', username=user, colors=users[user]['c'], users=users, urs=urs, tags=tags)
+        return render_template('profile.html', username=user, colors=users[user]['c'], users=users, urs=urs, tags=tags, age = getage(users[user]['grade']))
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -106,6 +106,8 @@ def edit():
         newusername = request.args.get('newusername')
         newname = request.args.get('newname')
         user = request.args.get('user')
+        age = request.args.get('age')
+        grade = getgrade(age)
         if session['username'] == user:
             c0 = request.args.get('color0')
             c1 = request.args.get('color1')
@@ -113,7 +115,7 @@ def edit():
             oldtype = users[user]['t']
             oldp = users[user]['p']
             users = {newusername if k == user else k:v for k,v in users.items()}
-            users[newusername] = {'name': newname, 'p': oldp, 'c':  [f"#{c0}", f"#{c1}", f"#{c2}"], 't': oldtype, "tags": users[newusername]['tags'], "grade": users[newusername]['grade']}
+            users[newusername] = {'name': newname, 'p': oldp, 'c':  [f"#{c0}", f"#{c1}", f"#{c2}"], 't': oldtype, "tags": users[newusername]['tags'], "grade": grade}
             session['username'] = newusername
             with open('users.json', 'w') as f:
                 json.dump(users, f)
@@ -123,7 +125,7 @@ def edit():
             oldc = users[user]['c']
             oldp = users[user]['p']
             users = {newusername if k == user else k:v for k,v in users.items()}
-            users[newusername] = {'name': newname, 'p': oldp, 'c': oldc, 't': newtype, "tags": users[newusername]['tags'], "grade": users[newusername]['grade']}
+            users[newusername] = {'name': newname, 'p': oldp, 'c': oldc, 't': newtype, "tags": users[newusername]['tags'], "grade": grade}
             with open('users.json', 'w') as f:
                 json.dump(users, f)
             return redirect(url_for('admin'))
@@ -217,6 +219,54 @@ def signup():
 def signout():
     session.pop('username', default=None)
     return redirect(url_for('index'))
+
+def getage(grade):
+  grade = int(grade)
+  if grade <= 12:
+    age = grade + 5
+  else:
+    age = grade
+  return age
+
+def getgrade(age):
+  age = int(age)
+  if age <= 17:
+    grade = age - 5
+  else:
+    grade = age
+  return grade
+
+@app.route('/matching')
+def matching():
+    try:
+        if session['username'] != None:
+            f = open('users.json')
+            users = json.load(f)
+
+            prelist = []
+            currentstudent = session['username']
+
+            for user in users:
+                if users[user]['t'] == 'Tutor':
+                    prelist.append(user)
+            gradeofcur = getage(users[currentstudent]['grade'])
+            matching_tutors = []
+
+            for tutor in prelist:
+                if getage(users[tutor]['grade']) < gradeofcur:
+                    pass
+                else:
+                    tutor_fulfill = True
+                    for subj in users[currentstudent]['tags']:
+                        if subj[0] not in [tag[0] for tag in users[tutor]['tags']]:
+                            tutor_fulfill = False
+                            break
+                    if tutor_fulfill:
+                        matching_tutors.append(tutor)
+            matches = {i: users[i] for i in matching_tutors}
+            return render_template('matching.html', matches=matches, yourtags = users[currentstudent]['tags'])
+    except:
+        return redirect(url_for('login'))
 
 app.jinja_env.cache = {}
 app.jinja_env.auto_reload = True

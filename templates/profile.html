@@ -115,6 +115,8 @@
         <br>
         <b id="n">Name: </b><input type="text" id="{{username}}name" value="{{ users[username]['name'] }}"></input>✏️
         <br>
+        <b id="age">Age: </b><input type="text" id="{{username}}age" value="{{ age }}"></input>✏️
+        <br>
         <b>Account Type: </b> {{ users[username]['t'] }}
         <br><br>
         <b>Color Scheme: </b>
@@ -149,11 +151,11 @@
             function edit(username) {
                 user = document.getElementById(username+"username").value;
                 name = document.getElementById(username+"name").value;
+                age = document.getElementById(username+"age").value;
                 color0 = document.getElementById("color0").value.slice(1);
-                console.log(color0)
                 color1 = document.getElementById("color1").value.slice(1);
                 color2 = document.getElementById("color2").value.slice(1);
-                window.location = `/edit?user=${username}&newusername=${user}&newname=${name}&color0=${color0}&color1=${color1}&color2=${color2}`
+                window.location = `/edit?user=${username}&newusername=${user}&newname=${name}&age=${age}&color0=${color0}&color1=${color1}&color2=${color2}`
             }
             let colorWell0;
             let colorWell1;
@@ -230,6 +232,8 @@
     <div class="pfp" id="loggedin"><span class="letter">{{ username[0].upper() }}</span></div></strong><b>Username: </b><p>{{ username }}</p>
     <br>
     <b id="n">Name: </b><p>{{ users[username]['name'] }}</p>
+    <br>
+    <b id="age">Age: </b><p>{{ age }}</p>
     <br>
     <b>Account Type: </b> {{ users[username]['t'] }}
     <br><br>

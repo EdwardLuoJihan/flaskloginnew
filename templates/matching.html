@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+        * {
+            font-family: 'Montserrat';
+            transition: all 0.2s ease;
+        }
+        .tags  {
+            display: table;
+            border-spacing:15px 0;
+        }
+        .tag {
+            display: table-cell;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+            .alert {
+                color: rgb(64, 255, 64);
+            }
+            .pfp {
+                border-radius: 50%;
+                height: 40px;
+                width: 40px;
+                vertical-align: middle;
+                text-align: center;
+                position: relative;
+                user-select: none;
+            }
+            .username a {
+                vertical-align: middle;
+            }
+            .letter {
+                font-size: 25px;
+                line-height: 40px;
+                padding: 0;
+                margin: 0;
+            }
+            a {
+                color: black;
+            }
+            .display {
+                padding: 20px;
+                border: 2px solid black;
+                border-radius: 3px;
+                position: relative;
+                display: table;
+                align-items: center;
+            }
+            .ouser {
+                display: table-cell;
+                padding: 20px;
+                align-items: center;
+                text-align: center;
+            }
+            .ouser .pfp {
+                margin: auto;
+                margin-bottom:5px;
+            }
+            .tutortags {
+                align-items: center;
+                text-align: center;
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+                grid-template-columns: 1fr 1fr;
+            }
+            .tutortag {
+                padding: 5px 10px;
+                border-radius: 3px;
+                margin: 10px auto;
+                width: max-content;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+                
+            }
+    </style>
+</head>
+<body>
+    <h3>Your Tags</h3>
+    {% if yourtags == [] %}
+        <p>No Tags</p>
+    {% else %}
+        <div class="tags">
+            {% for tag in yourtags %}
+                <p class="tag" style="background: {{tag[1]}}">{{tag[0]}}</p>
+            {%endfor%}
+        </div>
+    {% endif %}
+    <h3>Tutors that are compatible for you:</h3>
+    <div class="display">
+        {% for user in matches %}
+            <div class="ouser">
+                <p class="username"><strong><div class="pfp" style="background-color: {{ matches[user]['c'][1] }};color: {{ matches[user]['c'][2] }};border: 2px solid {{ matches[user]['c'][0] }};"><p class="letter">{{ user[0].upper() }}</p></div></strong>{{ user }}
+                <br>
+                <a href="profile/{{user}}">View Profile</a>
+                <div class="tutortags">
+                    {% for tag in matches[user]['tags'] %}
+                        <p class="tutortag" style="background: {{tag[1]}}">{{tag[0]}}</p>
+                    {%endfor%}
+                </div>
+            </div>
+        {%endfor%}
+    </div>
+    <br>
+    <a href="/">Home</a>
+</body>
+</html>
