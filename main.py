@@ -2,6 +2,10 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import json
 from datetime import timedelta
 import random
+import os
+import json
+from flask import Flask, render_template, request, jsonify, url_for, redirect
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'thisisakey'
@@ -267,6 +271,64 @@ def matching():
             return render_template('matching.html', matches=matches, yourtags = users[currentstudent]['tags'])
     except:
         return redirect(url_for('login'))
+
+messages_file = 'messages.json'
+
+# Check if the messages file exists, if not, create an empty one
+if not os.path.exists(messages_file):
+    with open(messages_file, 'w') as f:
+        json.dump({}, f)  # Initialize as an empty dictionary for multiple chat rooms
+
+# Load messages from JSON file
+def load_messages():
+    with open(messages_file, 'r') as f:
+        return json.load(f)
+
+# Save messages to JSON file
+def save_messages(messages):
+    with open(messages_file, 'w') as f:
+        json.dump(messages, f, indent=4)
+
+@app.route('/chatroom', methods=['POST', 'GET'])
+def chatroom():
+    if request.method == "GET":
+        return redirect(url_for('index'))
+    username = request.form.get('username')
+    chatroom_name = request.form.get('chatroom')
+    return render_template('chatroom.html', username=session['username'], chatroom_name=chatroom_name)
+
+@app.route('/send_message', methods=['POST'])
+def send_message():
+    message = request.form.get('message')
+    username = session['username']
+    chatroom_name = request.form.get('chatroom')
+    
+    if message and username and chatroom_name:
+        f = open('users.json')
+        users = json.load(f)
+        pfp = 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png'
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Current date and time
+        new_message = {'pfp': pfp, 'username': session['username'], 'message': message, 'timestamp': timestamp, 't': users[username]['t']}
+        
+        messages = load_messages()
+        
+        if chatroom_name not in messages:
+            messages[chatroom_name] = []  # Initialize chat room if it doesn't exist
+        
+        messages[chatroom_name].append(new_message)  # Append the new message to the chat room's messages
+        save_messages(messages)  # Save the updated list of messages to the JSON file
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False})
+
+@app.route('/get_messages')
+def get_messages():
+    chatroom_name = request.args.get('chatroom')
+    messages = load_messages()
+    if chatroom_name in messages:
+        return jsonify(messages[chatroom_name])
+    else:
+        return jsonify([])
 
 app.jinja_env.cache = {}
 app.jinja_env.auto_reload = True

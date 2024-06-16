@@ -1,0 +1,93 @@
+body {
+    font-family: "Source Code Pro", monospace;
+    background-color: black;
+    color: white;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: black;
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 250px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 2px solid white;
+}
+
+button:hover {
+    background-color: white;
+    color: black;
+}
+
+#chat-box {
+    height: 300px;
+    color: white;
+    overflow-y: scroll;
+    border: 1px solid white;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: black;
+}
+
+.pfp {
+    position: relative;
+    height: max-content;
+}
+
+#chat-box img {
+    vertical-align: middle;
+    margin-bottom: 3px;
+    margin-right: 5px;
+    height: 20px;
+    width: auto;
+}
+
+#chat-box div {
+    margin: 20px;
+}
+
+#message-form {
+    margin-top: 10px;
+    text-align: center;
+}
+*:focus {
+    outline: none;
+}
+
+#message {
+    padding: 8px;
+    outline: none;
+    width: 400px;
+    color: black;
+    border: 1px solid white;
+    border-radius: 4px;
+}
+
+#message:focus {
+    outline: none;
+    border-color: white;
+}

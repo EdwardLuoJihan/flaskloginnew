@@ -68,6 +68,18 @@
             <p class="username"><strong><div class="pfp" id="loggedin"><p class="letter">{{ username[0].upper() }}</p></div></strong>{{ username }}
             <br>
             <a href="profile">profile</a>
+            <form action="/chatroom" method="POST">
+                <label for="chatroom">Select a chat room:</label><br>
+                <select id="chatroom" name="chatroom" required>
+                    <option value="global">Global Chat</option>
+                    <option value="math">Math Chat</option>
+                    <option value="social">Social Chat</option>
+                    <option value="language arts">Language Arts Chat</option>
+                    <option value="science">Science Chat</option>
+                    <option value="other subjects">Other Subjects Chat</option>
+                </select><br><br>
+                <button type="submit">Join Chat</button>
+            </form>
             <p><a href="signout">Sign Out</a></p>
             {% if t=="Student" %}
                 <h1>All Tutors</h1>

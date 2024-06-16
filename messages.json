@@ -1,0 +1,41 @@
+{
+    "global": [
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "tao",
+            "message": "hello student",
+            "timestamp": "2024-06-15 22:04:01",
+            "t": "Tutor"
+        },
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "bot 1",
+            "message": "hello tutor",
+            "timestamp": "2024-06-15 22:04:13",
+            "t": "Student"
+        },
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "bot 1",
+            "message": "asdasdas",
+            "timestamp": "2024-06-15 22:06:03",
+            "t": "Student"
+        }
+    ],
+    "math": [
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "bot 1",
+            "message": "hi",
+            "timestamp": "2024-06-15 22:06:14",
+            "t": "Student"
+        },
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "tao",
+            "message": "hi",
+            "timestamp": "2024-06-15 22:06:17",
+            "t": "Tutor"
+        }
+    ]
+}
