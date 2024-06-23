@@ -6,6 +6,8 @@ import os
 import json
 from flask import Flask, render_template, request, jsonify, url_for, redirect
 import datetime
+from urllib.parse import quote
+
 
 app = Flask(__name__)
 app.secret_key = 'thisisakey'
@@ -50,8 +52,17 @@ def index():
     try:
         f = open('users.json')
         users = json.load(f)
+        messages = load_messages()
+        dms = {}
+        username = session['username']
+        total_unread = 0
+        for message in messages:
+            if username in message.split('-'):
+                num_unread = len([i['message'] for i in messages[message] if username not in i['read_by']])
+                total_unread += num_unread
+                dms[[i for i in message.split('-') if i != username][0]] = num_unread
         if session['username'] != None:
-            return render_template('index.html', username=session['username'], colors=users[session['username']]['c'], t=users[session['username']]['t'], users=users)
+            return render_template('index.html', username=session['username'], colors=users[session['username']]['c'], t=users[session['username']]['t'], users=users, dms=dms, total_unread = total_unread)
     except:
         return render_template('index.html', username="Guest", colors=['#d6d6d6','#d6d6d6','#d6d6d6'])
 
@@ -297,6 +308,34 @@ def chatroom():
     chatroom_name = request.form.get('chatroom')
     return render_template('chatroom.html', username=session['username'], chatroom_name=chatroom_name)
 
+@app.route('/directmessage', methods=['POST', 'GET'])
+def dm():
+    if request.method == "GET":
+        return redirect(url_for('index'))
+    user = session['username']
+    user2 = request.form.get('chatroom')
+    return render_template('dm.html', username=user, chatroom_name=user2)
+
+@app.route('/mark_as_read', methods=['POST'])
+def mark_as_read():
+    username = session['username']
+    chatroom_name = request.form.get('chatroom')
+    messages = load_messages()
+
+    if f"{chatroom_name}-{username}" in messages:
+        chat_key = f"{chatroom_name}-{username}"
+    elif f"{username}-{chatroom_name}" in messages:
+        chat_key = f"{username}-{chatroom_name}"
+    else:
+        return jsonify({'success': False})
+
+    for message in messages[chat_key]:
+        if username not in message['read_by']:
+            message['read_by'].append(username)
+
+    save_messages(messages)
+    return jsonify({'success': True})
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     message = request.form.get('message')
@@ -308,7 +347,7 @@ def send_message():
         users = json.load(f)
         pfp = 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png'
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Current date and time
-        new_message = {'pfp': pfp, 'username': session['username'], 'message': message, 'timestamp': timestamp, 't': users[username]['t']}
+        new_message = {'pfp': pfp, 'username': session['username'], 'message': message, 'timestamp': timestamp, 't': users[username]['t'], 'read_by': []}
         
         messages = load_messages()
         
@@ -327,6 +366,45 @@ def get_messages():
     messages = load_messages()
     if chatroom_name in messages:
         return jsonify(messages[chatroom_name])
+    else:
+        return jsonify([])
+    
+@app.route('/send_dm', methods=['POST'])
+def send_dm():
+    message = request.form.get('message')
+    username = session['username']
+    chatroom_name = request.form.get('chatroom')
+    
+    if message and username and chatroom_name:
+        f = open('users.json')
+        users = json.load(f)
+        pfp = 'https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png'
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Current date and time
+        new_message = {'pfp': pfp, 'username': session['username'], 'message': message, 'timestamp': timestamp, 't': users[username]['t'], 'read_by': []}
+        
+        messages = load_messages()
+        
+        if f"{chatroom_name}-{username}" not in messages and f"{username}-{chatroom_name}" not in messages:
+            messages[f"{chatroom_name}-{username}"] = []  # Initialize chat room if it doesn't exist
+        
+        try:
+            messages[f"{chatroom_name}-{username}"].append(new_message) 
+        except:
+            messages[f"{username}-{chatroom_name}"].append(new_message) # Append the new message to the chat room's messages
+        save_messages(messages)  # Save the updated list of messages to the JSON file
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False})
+
+@app.route('/get_dm')
+def get_dm():
+    chatroom_name = request.args.get('chatroom')
+    messages = load_messages()
+    if f"{chatroom_name}-{session['username']}" in messages or f"{session['username']}-{chatroom_name}" in messages:
+        try:
+            return jsonify(messages[f"{chatroom_name}-{session['username']}"])
+        except:
+            return jsonify(messages[f"{session['username']}-{chatroom_name}"])
     else:
         return jsonify([])
 

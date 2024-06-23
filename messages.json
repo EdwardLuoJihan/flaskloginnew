@@ -1,41 +1,81 @@
 {
-    "global": [
+    "Gregory Kolb-Harold Reid": [
         {
             "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
-            "username": "tao",
-            "message": "hello student",
-            "timestamp": "2024-06-15 22:04:01",
-            "t": "Tutor"
+            "username": "Harold Reid",
+            "message": "asdasd",
+            "timestamp": "2024-06-22 18:37:16",
+            "t": "Student",
+            "read_by": [
+                "Harold Reid",
+                "Gregory Kolb"
+            ]
         },
         {
             "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
-            "username": "bot 1",
-            "message": "hello tutor",
-            "timestamp": "2024-06-15 22:04:13",
-            "t": "Student"
+            "username": "Harold Reid",
+            "message": "asdasd",
+            "timestamp": "2024-06-22 18:37:35",
+            "t": "Student",
+            "read_by": [
+                "Harold Reid",
+                "Gregory Kolb"
+            ]
         },
         {
             "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
-            "username": "bot 1",
-            "message": "asdasdas",
-            "timestamp": "2024-06-15 22:06:03",
-            "t": "Student"
-        }
-    ],
-    "math": [
-        {
-            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
-            "username": "bot 1",
-            "message": "hi",
-            "timestamp": "2024-06-15 22:06:14",
-            "t": "Student"
+            "username": "Gregory Kolb",
+            "message": "aiosdjasiodjasioja",
+            "timestamp": "2024-06-22 18:46:08",
+            "t": "Tutor",
+            "read_by": [
+                "Gregory Kolb",
+                "Harold Reid"
+            ]
         },
         {
             "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
-            "username": "tao",
-            "message": "hi",
-            "timestamp": "2024-06-15 22:06:17",
-            "t": "Tutor"
+            "username": "Gregory Kolb",
+            "message": "asdas",
+            "timestamp": "2024-06-22 18:46:30",
+            "t": "Tutor",
+            "read_by": [
+                "Gregory Kolb",
+                "Harold Reid"
+            ]
+        },
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "Harold Reid",
+            "message": "message 1",
+            "timestamp": "2024-06-22 18:51:56",
+            "t": "Student",
+            "read_by": [
+                "Harold Reid",
+                "Gregory Kolb"
+            ]
+        },
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "Harold Reid",
+            "message": "message 2",
+            "timestamp": "2024-06-22 18:51:57",
+            "t": "Student",
+            "read_by": [
+                "Harold Reid",
+                "Gregory Kolb"
+            ]
+        },
+        {
+            "pfp": "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png",
+            "username": "Harold Reid",
+            "message": "message 3",
+            "timestamp": "2024-06-22 18:51:59",
+            "t": "Student",
+            "read_by": [
+                "Harold Reid",
+                "Gregory Kolb"
+            ]
         }
     ]
 }

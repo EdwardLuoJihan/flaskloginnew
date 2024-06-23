@@ -68,6 +68,8 @@ button:hover {
 
 #chat-box div {
     margin: 20px;
+    border: 2px solid white;
+    padding: 20px;
 }
 
 #message-form {

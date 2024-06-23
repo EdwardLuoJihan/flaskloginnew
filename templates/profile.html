@@ -4,6 +4,7 @@
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
       <title>Profile</title>
       <style>
          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
@@ -232,6 +233,14 @@
     <div class="pfp" id="loggedin"><span class="letter">{{ username[0].upper() }}</span></div></strong><b>Username: </b><p>{{ username }}</p>
     <br>
     <b id="n">Name: </b><p>{{ users[username]['name'] }}</p>
+    <br>
+    <form action="/directmessage" method="POST">
+        <select id="chatroom" name="chatroom" required>
+            <option value="{{username}}">{{username}}</option>
+        </select><br><br>
+        <button type="submit">Open Chat</button>
+    </form>
+    <br>
     <br>
     <b id="age">Age: </b><p>{{ age }}</p>
     <br>

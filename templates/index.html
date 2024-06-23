@@ -66,8 +66,8 @@
             <p><a href="signup">Sign Up</a></p>
         {% else %}
             <p class="username"><strong><div class="pfp" id="loggedin"><p class="letter">{{ username[0].upper() }}</p></div></strong>{{ username }}
-            <br>
-            <a href="profile">profile</a>
+            <br><br>
+            <a href="profile">profile</a><br><br>
             <form action="/chatroom" method="POST">
                 <label for="chatroom">Select a chat room:</label><br>
                 <select id="chatroom" name="chatroom" required>
@@ -80,6 +80,27 @@
                 </select><br><br>
                 <button type="submit">Join Chat</button>
             </form>
+            <br>
+            <br>
+            {% if total_unread == 0%}
+            Direct Messages (Inbox - No unread messages)
+            {%else%}
+            Direct Messages (Inbox - <span style="color:red;">{{total_unread}} New Messages</span>)
+            {%endif%}
+            <form action="/directmessage" method="POST">
+                <select id="chatroom" name="chatroom" required>
+                    {% for dm in dms %}
+                    <option value="{{dm}}">{{dm}}</span></option>
+                    {% if dms[dm] == 0%}
+                    {%else%}
+                    <option value="{{dm}}">{{dm}} - <span style="color:red;">{{dms[dm]}} Unread Messages</span></option>
+                    {%endif%}
+                    {%endfor%}
+                </select><br><br>
+                <button type="submit">Open Chat</button>
+            </form>
+            <br>
+            <br>
             <p><a href="signout">Sign Out</a></p>
             {% if t=="Student" %}
                 <h1>All Tutors</h1>
@@ -113,7 +134,7 @@
             </div>
             <br>
         <br>
-            <a href="matching">Find tutors you match with</a>
+            <a href="matching">Find people you match with</a>
         {% endif %}
 
     </body>

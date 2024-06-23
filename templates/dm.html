@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Room</title>
+    <title>@{{chatroom_name}}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){
+            $.post('/mark_as_read', { chatroom: '{{chatroom_name}}' }, function(response) {
+                    if (response.success) {
+                        console.log("Messages marked as read");
+                    } else {
+                        console.log("Failed to mark messages as read");
+                    }
+                });
             var chatroom_name = '{{ chatroom_name }}';
 
             // Function to fetch messages and update the chat box
             function fetchMessages() {
                 $.ajax({
-                    url: '/get_messages',
+                    url: '/get_dm',
                     type: 'GET',
                     data: { chatroom: chatroom_name },
                     success: function(response) {
@@ -25,7 +32,7 @@
                             $('#chat-box').append(
                                 '<div><img src="' + message.pfp + '"><strong>' + ' [' + message.t + '] ' + message.username + ':</strong> ' + 
                                 message.message + 
-                                ' <span class="timestamp">[' + message.timestamp + ']</span></div>'
+                                ' <span class="timestamp">[' + message.timestamp + ']</span><small> Read by: ' + message.read_by + '</small></div>'
                             );
                         });
 
@@ -34,6 +41,13 @@
                     },
                     error: function(error) {
                         console.log('Error fetching messages:', error);
+                    }
+                });
+                $.post('/mark_as_read', { chatroom: '{{chatroom_name}}' }, function(response) {
+                    if (response.success) {
+                        console.log("Messages marked as read");
+                    } else {
+                        console.log("Failed to mark messages as read");
                     }
                 });
             }
@@ -51,7 +65,7 @@
                 var message = $('#message').val();
 
                 $.ajax({
-                    url: '/send_message',
+                    url: '/send_dm',
                     type: 'POST',
                     data: {
                         message: message,
@@ -78,7 +92,7 @@
 <body>
     <a href="/" style="color:white;font-size: 20px;">home</a>
     <div class="container">
-        <h1>{{ chatroom_name }} Chat Room</h1>
+        <h1>Chatting with {{ chatroom_name }}</h1>
         <div id="chat-box">
             <!-- Chat messages will appear here dynamically -->
         </div>
